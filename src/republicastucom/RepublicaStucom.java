@@ -5,6 +5,8 @@
  */
 package republicastucom;
 
+import windowsApp.MainInterface;
+
 /**
  *
  * @author Yuli
@@ -15,7 +17,9 @@ public class RepublicaStucom {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        MainInterface mainInterface = new MainInterface();
+        mainInterface.setLocationRelativeTo(null);
+        mainInterface.setVisible(true);
     }
-    
+
 }
