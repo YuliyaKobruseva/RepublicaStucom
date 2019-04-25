@@ -16,12 +16,16 @@ public class ExceptionsDao extends CodeException{
     
     // ExceptionsDao codes
     public static final int SPACEPORT_EXIST = 0;
-    
+    public static final int RUNWAY_EXIST = 1;
+    public static final int SPACESHIP_EXIST = 2;
+    public static final int SPACESHIP_NOT_EXIST = 3;
   
     // ExceptionsDao messages
     private final List<String> messages = Arrays.asList(
-            "Spaceport already exist"
-         
+            "Spaceport already exist",
+            "Runway already exist",
+            "Spaceship already exist",
+            "Spaceship doesn`t exist"
            );
 
     public ExceptionsDao(int code) {
