@@ -23,6 +23,19 @@ import models.Spaceship;
 public class Dao {
 
     Connection conexion;
+    private static Dao dao;
+
+    /**
+     * Method that allows access to Dao
+     *
+     * @return singleton
+     */
+    public static synchronized Dao getDao() {
+        if (dao == null) {
+            dao = new Dao();
+        }
+        return dao;
+    }
 
     /**
      *
@@ -45,7 +58,7 @@ public class Dao {
         }
     }
 
-    private boolean existSpaseport(Spaceport spaceport) throws SQLException {
+    public boolean existSpaseport(Spaceport spaceport) throws SQLException {
         //conectar
         String select = "select * from spaceport where name='" + spaceport.getName() + "'";
         Statement st = conexion.createStatement();
@@ -60,7 +73,7 @@ public class Dao {
         //desconectar
     }
 
-    private boolean existRunway(Runway runway) throws SQLException {
+    public boolean existRunway(Runway runway) throws SQLException {
         String select = "select * from runway where number='" + runway.getNumber() + "'";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(select);
@@ -73,7 +86,7 @@ public class Dao {
         return existe;
     }
 
-    private boolean existSpaceship(Spaceship spaceship) throws SQLException {
+    public boolean existSpaceship(Spaceship spaceship) throws SQLException {
         String select = "select * from spaceship where name='" + spaceship.getName() + "'";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(select);
@@ -115,7 +128,7 @@ public class Dao {
         ps.executeUpdate();
         ps.close();
     }
-    
+
     public void insertSpaceship(Spaceship spaceship) throws SQLException, ExceptionsDao {
         //comprobar antes de insertar
         if (existSpaceship(spaceship)) {
@@ -126,12 +139,12 @@ public class Dao {
         ps.setString(1, spaceship.getName());
         ps.setInt(2, spaceship.getCapacity());
         ps.setString(3, spaceship.getStatus().toString());
-        ps.setInt(4, spaceship.getFlightNumbers());        
+        ps.setInt(4, spaceship.getFlightNumbers());
         ps.executeUpdate();
         ps.close();
     }
-    
-     public void deleteSpaceship(Spaceship spaceship) throws SQLException, ExceptionsDao {
+
+    public void deleteSpaceship(Spaceship spaceship) throws SQLException, ExceptionsDao {
         if (!existSpaceship(spaceship)) {
             throw new ExceptionsDao(ExceptionsDao.SPACESHIP_NOT_EXIST);
         }

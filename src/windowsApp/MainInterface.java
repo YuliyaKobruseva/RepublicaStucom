@@ -49,6 +49,11 @@ public class MainInterface extends javax.swing.JFrame {
         general.setText("General");
 
         newSpaceport.setText("New spaceport");
+        newSpaceport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newSpaceportActionPerformed(evt);
+            }
+        });
         general.add(newSpaceport);
 
         newRunway.setText("New runway");
@@ -110,6 +115,16 @@ public class MainInterface extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+/**
+     * Open a window to create a new spaceport
+     *
+     * @param evt
+     */
+    private void newSpaceportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSpaceportActionPerformed
+        NewSpaceport newSpaceport = new NewSpaceport(this, true);
+        newSpaceport.setLocationRelativeTo(null);
+        newSpaceport.setVisible(true);
+    }//GEN-LAST:event_newSpaceportActionPerformed
 
     /**
      * @param args the command line arguments
