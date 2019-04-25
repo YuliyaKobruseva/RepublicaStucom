@@ -17,6 +17,13 @@ public class Spaceport {
     private String galaxy;
     private TreeMap<Integer, Runway> runways;
 
+    public Spaceport(String name, String planet, String galaxy) {
+        this.name = name;
+        this.planet = planet;
+        this.galaxy = galaxy;
+    }
+    
+
     /**
      * Get the value of runways
      *
