@@ -21,8 +21,7 @@ public class Runway {
     public Runway(int number, Spaceship spaceship) {
         this.number = number;
         this.status = RunwaysStatus.FREE;
-        this.landingsNumber = 0;
-        this.spaceship = spaceship;
+        this.landingsNumber = 0;        
     }
 
     /**
