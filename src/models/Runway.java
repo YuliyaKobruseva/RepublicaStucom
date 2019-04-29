@@ -17,8 +17,10 @@ public class Runway {
     private RunwaysStatus status;
     private int landingsNumber;
     private Spaceship spaceship;
+    
+    public Runway(){}
 
-    public Runway(int number, Spaceship spaceship) {
+    public Runway(int number) {
         this.number = number;
         this.status = RunwaysStatus.FREE;
         this.landingsNumber = 0;        

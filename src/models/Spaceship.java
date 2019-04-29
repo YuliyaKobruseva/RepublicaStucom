@@ -18,10 +18,18 @@ public class Spaceship {
     private SpaceshipsStatus status;
     private int flightNumbers;
 
+    public Spaceship() {}   
+    
+
+    public Spaceship(String name) {
+        this.name = name;
+    }   
+
     public Spaceship(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
-        this.flightNumbers = 0;
+        this.status=SpaceshipsStatus.LANDED;
+        this.flightNumbers = 0;        
     }
 
     /**

@@ -21,11 +21,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="New runway"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newRunwayActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="newSpaceship">
               <Properties>
                 <Property name="text" type="java.lang.String" value="New spaceship"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newSpaceshipActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="deleteSpaceship">
               <Properties>

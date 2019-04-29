@@ -16,6 +16,8 @@ public class Spaceport {
     private String planet;
     private String galaxy;
     private TreeMap<Integer, Runway> runways;
+    
+    public Spaceport(){}
 
     public Spaceport(String name, String planet, String galaxy) {
         this.name = name;

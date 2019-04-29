@@ -5,11 +5,23 @@
  */
 package windowsApp;
 
+import dao.Dao;
+import exceptions.ExceptionsDao;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import models.Runway;
+import models.Spaceport;
+
 /**
  *
  * @author dafna
  */
 public class MainInterface extends javax.swing.JFrame {
+    
+    List<Spaceport> spaceportsApp = new ArrayList<>();
+    List<Runway> runways = new ArrayList<>();
 
     /**
      * Creates new form MainInterface
@@ -57,9 +69,19 @@ public class MainInterface extends javax.swing.JFrame {
         general.add(newSpaceport);
 
         newRunway.setText("New runway");
+        newRunway.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newRunwayActionPerformed(evt);
+            }
+        });
         general.add(newRunway);
 
         newSpaceship.setText("New spaceship");
+        newSpaceship.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newSpaceshipActionPerformed(evt);
+            }
+        });
         general.add(newSpaceship);
 
         deleteSpaceship.setText("Delete spaceship");
@@ -126,41 +148,39 @@ public class MainInterface extends javax.swing.JFrame {
         newSpaceport.setVisible(true);
     }//GEN-LAST:event_newSpaceportActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void newSpaceshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSpaceshipActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            spaceportsApp = Dao.getDao().selectAllSpaceport();
+            runways = Dao.getDao().selectRunwaysByStatus("FREE");
+            if (spaceportsApp.isEmpty() || runways.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "There is no airport/runways available", "Message", JOptionPane.WARNING_MESSAGE);                
+            }else{
+                NewSpaceship newSpaceship = new NewSpaceship(this, true);
+                newSpaceship.setLocationRelativeTo(null);
+                newSpaceship.setVisible(true);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
-        //</editor-fold>
+        
+    }//GEN-LAST:event_newSpaceshipActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainInterface().setVisible(true);
+    private void newRunwayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRunwayActionPerformed
+        try {
+            spaceportsApp = Dao.getDao().selectAllSpaceport();            
+            if (spaceportsApp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "There is no airport available", "Message", JOptionPane.WARNING_MESSAGE);                
+            }else{
+                NewRunway newRunway = new NewRunway(this, true);
+                newRunway.setLocationRelativeTo(null);
+                newRunway.setVisible(true);
             }
-        });
-    }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_newRunwayActionPerformed
 
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteSpaceship;
     private javax.swing.JMenuItem departures;
