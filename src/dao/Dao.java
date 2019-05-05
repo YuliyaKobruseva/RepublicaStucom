@@ -429,33 +429,19 @@ public class Dao {
     }
 
     /**
-     *
-     * @param runway
-     * @throws SQLException
-     */
-    public void updateRunway(Runway runway) throws SQLException {
-        connection();
-        Statement st = conexion.createStatement();
-        String query = "update runway set status='CLEANING', numlandings=0, spaceship=null where number=" + runway.getNumber();
-        st.executeUpdate(query);
-        st.close();
-        disconnect();
-    }
-
-    /**
-     * Update spaceship and runway in case spaceship deployment
+     * Update spaceship and runway in case spaceship landing
      *
      * @param spaceship
      * @param runway
      * @throws SQLException
      * @throws ExceptionsDatabase
      */
-    public void updateSpaceshipRunwayDeployment(Spaceship spaceship, Runway runway) throws SQLException, ExceptionsDatabase {
+    public void updateSpaceshipRunwayDeployment(String spaceship, Runway runway) throws SQLException, ExceptionsDatabase {
         connection();
         Statement st = conexion.createStatement();
         try {
             conexion.setAutoCommit(false);
-            String updateSpaceship = "update spaceship set status='FLYING', numflights = numflights+1 where name='" + spaceship.getName() + "'";
+            String updateSpaceship = "update spaceship set status='FLYING', numflights = numflights+1 where name='" + spaceship + "'";
             String updateRunway = "";
             if (runway.getLandingsNumber() % 5 == 0) {
                 updateRunway = "update runway set status='CLEANING', spaceship=null where number='" + runway.getNumber() + "'";
@@ -483,7 +469,7 @@ public class Dao {
      * @throws SQLException
      * @throws ExceptionsDatabase
      */
-    public void updateSpaceshipRunwayLanding(Spaceship spaceship, Runway runway) throws SQLException, ExceptionsDatabase {
+    public void updateSpaceshipRunwayLanding(Spaceship spaceship, String runway, String spaceport) throws SQLException, ExceptionsDatabase {
         connection();
         Statement st = conexion.createStatement();
         try {
@@ -494,10 +480,10 @@ public class Dao {
             } else {
                 updateSpaceship = "update spaceship set status='LANDED' where name='" + spaceship.getName() + "'";
             }
-//            String updateRunway = "update runway set spaceship='" + spaceship.getName() + "', status='BUSY', numlandings=numlandings+1 where spaceport='" + spaceport
-//                + "' and number = " + runway;          
+            String updateRunway = "update runway set spaceship='" + spaceship.getName() + "', status='BUSY', numlandings=numlandings+1 where spaceport='" + spaceport
+                    + "' and number = " + runway;
             st.executeUpdate(updateSpaceship);
-//            st.executeUpdate(updateRunway);
+            st.executeUpdate(updateRunway);
             conexion.commit();
         } catch (SQLException ex) {
             conexion.rollback();
@@ -558,6 +544,24 @@ public class Dao {
         st.close();
         disconnect();
         return spaceports;
+    }
+
+    public void updateSpaceshipMaintenance(Spaceship spaceship) throws SQLException, ExceptionsDatabase {
+        connection();
+        Statement st = conexion.createStatement();
+        String updateSpaceship = "update spaceship set status='LANDED' where name='" + spaceship.getName() + "'";
+        st.executeUpdate(updateSpaceship);
+        st.close();
+        disconnect();
+    }
+    
+    public void updateRunwayCleaning(String spaceport, String runway) throws SQLException, ExceptionsDatabase {
+        connection();
+        Statement st = conexion.createStatement();
+        String updateRunway = "update runway set status='FREE' where number='" + runway + "' and spaceport ='"+spaceport+"'";
+        st.executeUpdate(updateRunway);
+        st.close();
+        disconnect();
     }
 
 }

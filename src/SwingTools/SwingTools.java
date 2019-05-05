@@ -65,7 +65,7 @@ public class SwingTools {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
-                case "broken":
+            case "broken":
                 spaceships = Dao.getDao().selectSpaceshipByStatus("BROKEN");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
@@ -73,7 +73,7 @@ public class SwingTools {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
-                case "deployment":
+            case "deployment":
                 spaceships = Dao.getDao().selectSpaceshipByStatus("LANDED");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
@@ -81,7 +81,7 @@ public class SwingTools {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
-                case "landing":
+            case "landing":
                 spaceships = Dao.getDao().selectSpaceshipByStatus("FLYING");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
@@ -89,6 +89,13 @@ public class SwingTools {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
+            case "maintenance":
+                spaceships = Dao.getDao().selectSpaceshipByStatus("BROKEN");
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a spaceship");
+                spaceships.forEach((spaceship) -> {
+                    comboBox.addItem(spaceship.getName());
+                });
             default:
                 break;
         }
@@ -102,12 +109,12 @@ public class SwingTools {
      * @throws java.sql.SQLException
      * @throws exceptions.ExceptionsDao
      */
-    public void generateDynamicSelect(JComboBox<String> comboBox, String nameSpaceport) throws SQLException, ExceptionsDao {
+    public void generateDynamicSelect(JComboBox<String> comboBox, String nameSpaceport, String status) throws SQLException, ExceptionsDao {
         List<Runway> runways = Dao.getDao().selectFreeRunwaysBySpaceport(nameSpaceport);
         comboBox.removeAllItems();
         comboBox.addItem("Choose a runway");
         runways.forEach((runway) -> {
-            if (runway.getStatus().toString().equalsIgnoreCase("FREE")) {
+            if (runway.getStatus().toString().equalsIgnoreCase(status)) {
                 comboBox.addItem(ToolsApp.convertNumberToString(runway.getNumber()));
             }
         });
@@ -155,5 +162,4 @@ public class SwingTools {
 //        newTable.setModel(model);
 //        newTable.setEnabled(false);
 //    }
-
 }

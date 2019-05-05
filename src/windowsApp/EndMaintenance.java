@@ -11,22 +11,21 @@ import dao.Dao;
 import exceptions.ExceptionsDao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import models.Runway;
+import models.Spaceship;
 
 /**
  *
  * @author dafna
  */
-public class DeploymentSpaceship extends javax.swing.JDialog {
+public class EndMaintenance extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form DeploymentSpaceship
+     * Creates new form EndMaintenance
      */
-    public DeploymentSpaceship(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public EndMaintenance() {
         initComponents();
         try {
-            SwingTools.getSwingTools().generateSelect(spaceship, "deployment");
+            SwingTools.getSwingTools().generateSelect(spaceship, "maintenance");
         } catch (SQLException | ExceptionsDao ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
@@ -42,14 +41,14 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
     private void initComponents() {
 
         spaceship = new javax.swing.JComboBox<>();
-        deployment = new javax.swing.JButton();
+        complete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        spaceship.setToolTipText("");
 
-        deployment.setText("Deployment spaceship");
-        deployment.addActionListener(new java.awt.event.ActionListener() {
+        complete.setText("Complete maintenance");
+        complete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deploymentActionPerformed(evt);
+                completeActionPerformed(evt);
             }
         });
 
@@ -58,46 +57,42 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(deployment, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addGap(81, 81, 81)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(complete, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(spaceship, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(386, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(deployment)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93)
+                .addComponent(complete)
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deploymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deploymentActionPerformed
-        String spaceshipSelected = this.spaceship.getSelectedItem().toString();
+    private void completeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeActionPerformed
+        String spaceshipSelected = spaceship.getSelectedItem().toString();
         if (spaceshipSelected.equalsIgnoreCase("Choose a spaceship") || spaceshipSelected.trim().equalsIgnoreCase("Choose a spaceship")) {
             JOptionPane.showMessageDialog(this, "You have not selected any spaceship", "Message", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-//                Spaceship deploymentSpaceship = new Spaceship(spaceshipSelected);
-                Runway runway = Dao.getDao().selectRunwayBySpaceship(spaceshipSelected);
-                Dao.getDao().updateSpaceshipRunwayDeployment(spaceshipSelected, runway);
-                JOptionPane.showMessageDialog(this, "The spaceship has been deployment successful", "Message", JOptionPane.INFORMATION_MESSAGE);
+                Spaceship spaceshipChecked = Dao.getDao().getSpaceshipByName(spaceshipSelected);
+                Dao.getDao().updateSpaceshipMaintenance(spaceshipChecked);
+                JOptionPane.showMessageDialog(this, "Maintenance completed successful.", "Message", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException | ExceptionsDatabase ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
         }
-    }//GEN-LAST:event_deploymentActionPerformed
+    }//GEN-LAST:event_completeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton deployment;
+    private javax.swing.JButton complete;
     private javax.swing.JComboBox<String> spaceship;
     // End of variables declaration//GEN-END:variables
 }

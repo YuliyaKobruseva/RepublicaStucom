@@ -7,35 +7,25 @@ package windowsApp;
 
 import Exceptions.ExceptionsDatabase;
 import SwingTools.SwingTools;
-import dao.Dao;
 import exceptions.ExceptionsDao;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
-import models.Runway;
-import models.Spaceport;
-import models.Spaceship;
+import dao.Dao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author dafna
  */
-public class LandingSpaceship extends javax.swing.JDialog {
-    
-    List<Spaceport> spaceportsApp = new ArrayList<>();
-    List<Runway> runwaysApp = new ArrayList<>();
+public class EndCleaning extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form LandingSpaceship
-     * @param parent
-     * @param modal
+     * Creates new form EndCleaning
      */
-    public LandingSpaceship(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public EndCleaning() {
         initComponents();
-        try {
-            SwingTools.getSwingTools().generateSelect(spaceship, "landing");                       
+        try {                                  
             SwingTools.getSwingTools().generateSelect(spaceport, "spaceport");
         } catch (SQLException | ExceptionsDao ex ) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
@@ -51,12 +41,9 @@ public class LandingSpaceship extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        spaceship = new javax.swing.JComboBox<>();
         spaceport = new javax.swing.JComboBox<>();
         runway = new javax.swing.JComboBox<>();
-        landed = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        complete = new javax.swing.JButton();
 
         spaceport.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -64,10 +51,10 @@ public class LandingSpaceship extends javax.swing.JDialog {
             }
         });
 
-        landed.setText("Landing spaceship");
-        landed.addActionListener(new java.awt.event.ActionListener() {
+        complete.setText("Complete cleaning");
+        complete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                landedActionPerformed(evt);
+                completeActionPerformed(evt);
             }
         });
 
@@ -78,28 +65,25 @@ public class LandingSpaceship extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(runway, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
+                        .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127)
+                        .addComponent(runway, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addComponent(landed, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addGap(156, 156, 156)
+                        .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(runway, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(spaceport)
-                    .addComponent(spaceship))
-                .addGap(72, 72, 72)
-                .addComponent(landed)
-                .addContainerGap(59, Short.MAX_VALUE))
+                    .addComponent(runway, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(spaceport))
+                .addGap(94, 94, 94)
+                .addComponent(complete)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,33 +95,36 @@ public class LandingSpaceship extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "You have not selected any runway", "Message", JOptionPane.WARNING_MESSAGE);
         }else{
             try {                
-                SwingTools.getSwingTools().generateDynamicSelect(runway, spaceportSelected, "FREE");
+                SwingTools.getSwingTools().generateDynamicSelect(runway, spaceportSelected, "CLEANING");
             } catch (SQLException | ExceptionsDao ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
-        }    
+        }  
     }//GEN-LAST:event_spaceportItemStateChanged
 
-    private void landedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landedActionPerformed
+    private void completeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeActionPerformed
         String spaceportSelected = spaceport.getSelectedItem().toString();
-        String spaceshipSelected = spaceship.getSelectedItem().toString();
         String runwaySelected = runway.getSelectedItem().toString();
-        try {
-            Spaceship spaceshipChecked= Dao.getDao().getSpaceshipByName(spaceshipSelected);
-            Dao.getDao().updateSpaceshipRunwayLanding(spaceshipChecked, runwaySelected, spaceportSelected);
-            JOptionPane.showMessageDialog(this, "Spaceship landed successful", "Message", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException | ExceptionsDatabase ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        if(spaceportSelected.equalsIgnoreCase("Choose a spacesport") || spaceportSelected.trim().equalsIgnoreCase("Choose a spacesport")){
+            JOptionPane.showMessageDialog(this, "You have not selected any spaceport", "Message", JOptionPane.WARNING_MESSAGE);
+        }else{
+            if(runwaySelected.equalsIgnoreCase("Choose a spacesport") || runwaySelected.trim().equalsIgnoreCase("Choose a spacesport")){
+            JOptionPane.showMessageDialog(this, "You have not selected any tunway", "Message", JOptionPane.WARNING_MESSAGE);
+        }else{
+                try {
+                    Dao.getDao().updateRunwayCleaning(spaceportSelected, runwaySelected);
+                    JOptionPane.showMessageDialog(this, "Cleaning completed successful.", "Message", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException | ExceptionsDatabase ex) {
+                    JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+                }
+            }
         }
-         
-        
-    }//GEN-LAST:event_landedActionPerformed
+    }//GEN-LAST:event_completeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton landed;
+    private javax.swing.JButton complete;
     private javax.swing.JComboBox<String> runway;
     private javax.swing.JComboBox<String> spaceport;
-    private javax.swing.JComboBox<String> spaceship;
     // End of variables declaration//GEN-END:variables
 }

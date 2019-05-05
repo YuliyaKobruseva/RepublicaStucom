@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.plaf.basic.BasicSpinnerUI;
 import models.Runway;
 import models.Spaceport;
 import models.Spaceship;
@@ -43,6 +46,7 @@ public class MainInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        desktop = new javax.swing.JDesktopPane();
         mainPanel = new javax.swing.JMenuBar();
         general = new javax.swing.JMenu();
         newSpaceport = new javax.swing.JMenuItem();
@@ -61,6 +65,17 @@ public class MainInterface extends javax.swing.JFrame {
         spaceportsStatus = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
+        desktop.setLayout(desktopLayout);
+        desktopLayout.setHorizontalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 716, Short.MAX_VALUE)
+        );
+        desktopLayout.setVerticalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 418, Short.MAX_VALUE)
+        );
 
         general.setText("General");
 
@@ -100,7 +115,7 @@ public class MainInterface extends javax.swing.JFrame {
 
         flight.setText("Flight");
 
-        landings.setText("Landings");
+        landings.setText("Land spaceship");
         landings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 landingsActionPerformed(evt);
@@ -108,7 +123,7 @@ public class MainInterface extends javax.swing.JFrame {
         });
         flight.add(landings);
 
-        departures.setText("Departures");
+        departures.setText("Take off spaceship");
         departures.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 departuresActionPerformed(evt);
@@ -121,9 +136,19 @@ public class MainInterface extends javax.swing.JFrame {
         notifications.setText("Notifications");
 
         endCleaning.setText("End of cleaning");
+        endCleaning.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endCleaningActionPerformed(evt);
+            }
+        });
         notifications.add(endCleaning);
 
         endMaintenance.setText("End of maintenance");
+        endMaintenance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endMaintenanceActionPerformed(evt);
+            }
+        });
         notifications.add(endMaintenance);
 
         mainPanel.add(notifications);
@@ -147,11 +172,11 @@ public class MainInterface extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 716, Short.MAX_VALUE)
+            .addComponent(desktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
+            .addComponent(desktop)
         );
 
         pack();
@@ -235,7 +260,7 @@ public class MainInterface extends javax.swing.JFrame {
             spaceshipsApp = Dao.getDao().selectSpaceshipByStatus("FLYING");
             if (spaceshipsApp.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "There is no spaceship flying", "Message", JOptionPane.WARNING_MESSAGE);
-            } else {                
+            } else {
                 LandingSpaceship landing = new LandingSpaceship(this, true);
                 landing.setLocationRelativeTo(null);
                 landing.setVisible(true);
@@ -245,10 +270,29 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_landingsActionPerformed
 
+    private void endMaintenanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endMaintenanceActionPerformed
+        EndMaintenance endMaintenance = new EndMaintenance();
+        changeIF(endMaintenance);
+    }//GEN-LAST:event_endMaintenanceActionPerformed
+
+    private void endCleaningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endCleaningActionPerformed
+        EndCleaning endCleaning = new EndCleaning();
+        changeIF(endCleaning);
+    }//GEN-LAST:event_endCleaningActionPerformed
+
+    private void changeIF(JInternalFrame f) {
+        desktop.add(f);
+        f.setVisible(true);
+        f.setMaximizable(true);
+        f.setBorder(null);
+        BasicInternalFrameUI bi = (BasicInternalFrameUI) f.getUI();
+        bi.setNorthPane(null);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteSpaceship;
     private javax.swing.JMenuItem departures;
+    private javax.swing.JDesktopPane desktop;
     private javax.swing.JMenuItem endCleaning;
     private javax.swing.JMenuItem endMaintenance;
     private javax.swing.JMenu flight;

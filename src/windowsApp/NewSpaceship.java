@@ -226,9 +226,7 @@ public class NewSpaceship extends javax.swing.JDialog {
             }
         } catch (InputException ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
-        } catch (ExceptionsDatabase ex) {
+        } catch (SQLException | ExceptionsDatabase ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_addSpaceshipActionPerformed
@@ -242,20 +240,18 @@ public class NewSpaceship extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_nameSpaceshipFocusLost
 
-
     private void spaceportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_spaceportItemStateChanged
-        String spaceportSelected = spaceport.getSelectedItem().toString();        
-        if(spaceportSelected.equalsIgnoreCase("Choose a runway")){
+        String spaceportSelected = spaceport.getSelectedItem().toString();
+        if (spaceportSelected.equalsIgnoreCase("Choose a runway")) {
             JOptionPane.showMessageDialog(this, "You have not selected any runway", "Message", JOptionPane.WARNING_MESSAGE);
-        }else{
-            try {                
-                SwingTools.getSwingTools().generateDynamicSelect(runways, spaceportSelected);
+        } else {
+            try {
+                SwingTools.getSwingTools().generateDynamicSelect(runways, spaceportSelected, "FREE");
             } catch (SQLException | ExceptionsDao ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
-        }        
+        }
     }//GEN-LAST:event_spaceportItemStateChanged
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addSpaceship;
