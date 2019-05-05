@@ -13,8 +13,6 @@ import exceptions.InputException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Runway;
 import models.Spaceport;
@@ -224,6 +222,7 @@ public class NewSpaceship extends javax.swing.JDialog {
             } else {
                 Dao.getDao().insertSpaceship(newSpaceship, nameSpaceport, runway);
                 JOptionPane.showMessageDialog(this, "Spaceship created successful", "Message", JOptionPane.INFORMATION_MESSAGE);
+                //comprobar selectbox
             }
         } catch (InputException ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
@@ -245,17 +244,16 @@ public class NewSpaceship extends javax.swing.JDialog {
 
 
     private void spaceportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_spaceportItemStateChanged
-        String spaceportSelected = spaceport.getSelectedItem().toString();
+        String spaceportSelected = spaceport.getSelectedItem().toString();        
         if(spaceportSelected.equalsIgnoreCase("Choose a runway")){
             JOptionPane.showMessageDialog(this, "You have not selected any runway", "Message", JOptionPane.WARNING_MESSAGE);
         }else{
-            try {
+            try {                
                 SwingTools.getSwingTools().generateDynamicSelect(runways, spaceportSelected);
             } catch (SQLException | ExceptionsDao ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
-        }
-        
+        }        
     }//GEN-LAST:event_spaceportItemStateChanged
 
 

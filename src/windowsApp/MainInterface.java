@@ -10,18 +10,22 @@ import exceptions.ExceptionsDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Runway;
 import models.Spaceport;
+import models.Spaceship;
 
 /**
  *
  * @author dafna
  */
 public class MainInterface extends javax.swing.JFrame {
-    
+
     List<Spaceport> spaceportsApp = new ArrayList<>();
     List<Runway> runways = new ArrayList<>();
+    List<Spaceship> spaceshipsApp = new ArrayList<>();
 
     /**
      * Creates new form MainInterface
@@ -85,6 +89,11 @@ public class MainInterface extends javax.swing.JFrame {
         general.add(newSpaceship);
 
         deleteSpaceship.setText("Delete spaceship");
+        deleteSpaceship.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteSpaceshipActionPerformed(evt);
+            }
+        });
         general.add(deleteSpaceship);
 
         mainPanel.add(general);
@@ -92,9 +101,19 @@ public class MainInterface extends javax.swing.JFrame {
         flight.setText("Flight");
 
         landings.setText("Landings");
+        landings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                landingsActionPerformed(evt);
+            }
+        });
         flight.add(landings);
 
         departures.setText("Departures");
+        departures.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departuresActionPerformed(evt);
+            }
+        });
         flight.add(departures);
 
         mainPanel.add(flight);
@@ -153,8 +172,8 @@ public class MainInterface extends javax.swing.JFrame {
             spaceportsApp = Dao.getDao().selectAllSpaceport();
             runways = Dao.getDao().selectRunwaysByStatus("FREE");
             if (spaceportsApp.isEmpty() || runways.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "There is no airport/runways available", "Message", JOptionPane.WARNING_MESSAGE);                
-            }else{
+                JOptionPane.showMessageDialog(this, "There is no airport/runways available", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {
                 NewSpaceship newSpaceship = new NewSpaceship(this, true);
                 newSpaceship.setLocationRelativeTo(null);
                 newSpaceship.setVisible(true);
@@ -162,15 +181,15 @@ public class MainInterface extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_newSpaceshipActionPerformed
 
     private void newRunwayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRunwayActionPerformed
         try {
-            spaceportsApp = Dao.getDao().selectAllSpaceport();            
+            spaceportsApp = Dao.getDao().selectAllSpaceport();
             if (spaceportsApp.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "There is no airport available", "Message", JOptionPane.WARNING_MESSAGE);                
-            }else{
+                JOptionPane.showMessageDialog(this, "There is no airport available", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {
                 NewRunway newRunway = new NewRunway(this, true);
                 newRunway.setLocationRelativeTo(null);
                 newRunway.setVisible(true);
@@ -180,7 +199,53 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_newRunwayActionPerformed
 
-  
+    private void deleteSpaceshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSpaceshipActionPerformed
+        try {
+            spaceshipsApp = Dao.getDao().selectAllSpaceship();
+            if (spaceshipsApp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "There is no spaceship available", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {
+                DeleteSpaceship deleteSpaceship = new DeleteSpaceship(this, true);
+                deleteSpaceship.setLocationRelativeTo(null);
+                deleteSpaceship.setVisible(true);
+            }
+        } catch (SQLException | ExceptionsDao ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_deleteSpaceshipActionPerformed
+
+    private void departuresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departuresActionPerformed
+        try {
+            spaceshipsApp = Dao.getDao().selectSpaceshipByStatus("LANDED");
+            if (spaceshipsApp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "There is no spaceship landed", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {
+                DeploymentSpaceship deployment = new DeploymentSpaceship(this, true);
+                deployment.setLocationRelativeTo(null);
+                deployment.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_departuresActionPerformed
+
+    private void landingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landingsActionPerformed
+        try {
+            spaceshipsApp = Dao.getDao().selectSpaceshipByStatus("FLYING");
+            if (spaceshipsApp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "There is no spaceship flying", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {                
+                LandingSpaceship landing = new LandingSpaceship(this, true);
+                landing.setLocationRelativeTo(null);
+                landing.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_landingsActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteSpaceship;
     private javax.swing.JMenuItem departures;

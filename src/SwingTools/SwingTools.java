@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import models.Runway;
 import models.Spaceport;
+import models.Spaceship;
 import tools.ToolsApp;
 
 /**
@@ -42,17 +43,51 @@ public class SwingTools {
         switch (typeComboBox) {
             case "runway":
                 List<Runway> runways = Dao.getDao().selectAllRunway();
+                comboBox.removeAllItems();
                 comboBox.addItem("Choose a runway");
                 runways.forEach((runway) -> {
                     comboBox.addItem(ToolsApp.convertNumberToString(runway.getNumber()));
-        });
+                });
                 break;
             case "spaceport":
                 List<Spaceport> spaceports = Dao.getDao().selectAllSpaceport();
+                comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceport");
                 spaceports.forEach((spaceport) -> {
                     comboBox.addItem(spaceport.getName());
-        });
+                });
+                break;
+            case "spaceship":
+                List<Spaceship> spaceships = Dao.getDao().selectAllSpaceship();
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a spaceship");
+                spaceships.forEach((spaceship) -> {
+                    comboBox.addItem(spaceship.getName());
+                });
+                break;
+                case "broken":
+                spaceships = Dao.getDao().selectSpaceshipByStatus("BROKEN");
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a spaceship");
+                spaceships.forEach((spaceship) -> {
+                    comboBox.addItem(spaceship.getName());
+                });
+                break;
+                case "deployment":
+                spaceships = Dao.getDao().selectSpaceshipByStatus("LANDED");
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a spaceship");
+                spaceships.forEach((spaceship) -> {
+                    comboBox.addItem(spaceship.getName());
+                });
+                break;
+                case "landing":
+                spaceships = Dao.getDao().selectSpaceshipByStatus("FLYING");
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a spaceship");
+                spaceships.forEach((spaceship) -> {
+                    comboBox.addItem(spaceship.getName());
+                });
                 break;
             default:
                 break;
@@ -68,11 +103,13 @@ public class SwingTools {
      * @throws exceptions.ExceptionsDao
      */
     public void generateDynamicSelect(JComboBox<String> comboBox, String nameSpaceport) throws SQLException, ExceptionsDao {
-        List<Runway> runways = Dao.getDao().selectAllRunway();
+        List<Runway> runways = Dao.getDao().selectFreeRunwaysBySpaceport(nameSpaceport);
         comboBox.removeAllItems();
         comboBox.addItem("Choose a runway");
         runways.forEach((runway) -> {
-            comboBox.addItem(ToolsApp.convertNumberToString(runway.getNumber()));
+            if (runway.getStatus().toString().equalsIgnoreCase("FREE")) {
+                comboBox.addItem(ToolsApp.convertNumberToString(runway.getNumber()));
+            }
         });
     }
 
@@ -118,33 +155,5 @@ public class SwingTools {
 //        newTable.setModel(model);
 //        newTable.setEnabled(false);
 //    }
-//
-//    /**
-//     * Method to show button that was selected
-//     * @param buttonSelected
-//     * @param buttonGroup
-//     */
-//    public void setSelectedButtonText(String buttonSelected, ButtonGroup buttonGroup) {
-//        for (Enumeration buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-//            AbstractButton button = (AbstractButton) buttons.nextElement();
-//            if (button.getText().equalsIgnoreCase(buttonSelected)) {
-//                button.setSelected(true);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Method to get name of the selected button
-//     * @param buttonGroup
-//     * @return name of button
-//     */
-//    public String getSelectedButtonText(ButtonGroup buttonGroup) {
-//        for (Enumeration buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-//            AbstractButton button = (AbstractButton) buttons.nextElement();
-//            if (button.isSelected()) {
-//                return button.getText();
-//            }
-//        }
-//        return null;
-//    }
+
 }
