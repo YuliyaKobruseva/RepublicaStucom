@@ -375,6 +375,24 @@ public class Dao {
         disconnect();
         return spaceship;
     }
+    
+    public Spaceport getSpaceportByRunway(String number) throws SQLException {
+        connection();
+        Spaceport spaceport = new Spaceport();
+        String select = "SELECT spaceport, planet, galaxy FROM runway left join spaceport on spaceport=name where number ='" + number + "'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        spaceport = new Spaceport();
+        if (rs.next()) {
+            spaceport.setName(rs.getString("spaceport"));
+            spaceport.setPlanet(rs.getString("planet"));            
+            spaceport.setGalaxy(rs.getString("galaxy"));
+        }
+        rs.close();
+        st.close();
+        disconnect();
+        return spaceport;
+    }
 
     /**
      *
@@ -529,7 +547,7 @@ public class Dao {
      */
     public List<Spaceport> selectSpaceportByGalaxy(String galaxy) throws SQLException {
         connection();
-        String query = "select * from spaceport where galaxy='" + galaxy + "'";
+        String query = "SELECT * FROM spaceport where galaxy ='" + galaxy + "'";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(query);
         List<Spaceport> spaceports = new ArrayList<>();
@@ -538,6 +556,10 @@ public class Dao {
             spaceport.setName(rs.getString("name"));
             spaceport.setPlanet(rs.getString("planet"));
             spaceport.setGalaxy(rs.getString("galaxy"));
+            List<Runway> runways = selectRunwaysBySpaceport(rs.getString("name"));
+            for (Runway runway : runways) {
+                spaceport.addRunway(runway);
+            }
             spaceports.add(spaceport);
         }
         rs.close();
@@ -546,6 +568,12 @@ public class Dao {
         return spaceports;
     }
 
+    /**
+     *
+     * @param spaceship
+     * @throws SQLException
+     * @throws ExceptionsDatabase
+     */
     public void updateSpaceshipMaintenance(Spaceship spaceship) throws SQLException, ExceptionsDatabase {
         connection();
         Statement st = conexion.createStatement();
@@ -554,14 +582,40 @@ public class Dao {
         st.close();
         disconnect();
     }
-    
+
+    /**
+     *
+     * @param spaceport
+     * @param runway
+     * @throws SQLException
+     * @throws ExceptionsDatabase
+     */
     public void updateRunwayCleaning(String spaceport, String runway) throws SQLException, ExceptionsDatabase {
         connection();
         Statement st = conexion.createStatement();
-        String updateRunway = "update runway set status='FREE' where number='" + runway + "' and spaceport ='"+spaceport+"'";
+        String updateRunway = "update runway set status='FREE' where number='" + runway + "' and spaceport ='" + spaceport + "'";
         st.executeUpdate(updateRunway);
         st.close();
         disconnect();
+    }
+
+    /**
+     *
+     * @return @throws SQLException
+     */
+    public List<String> getListGalaxies() throws SQLException {
+        connection();
+        String query = "select distinct galaxy from spaceport";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        List<String> galaxies = new ArrayList<>();
+        while (rs.next()) {
+            galaxies.add(rs.getString("galaxy"));
+        }
+        rs.close();
+        st.close();
+        disconnect();
+        return galaxies;
     }
 
 }

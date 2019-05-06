@@ -17,12 +17,15 @@ public class Spaceport {
     private String galaxy;
     private TreeMap<Integer, Runway> runways;
     
-    public Spaceport(){}
+    public Spaceport(){
+        this.runways = new TreeMap<Integer, Runway>();
+    }
 
     public Spaceport(String name, String planet, String galaxy) {
         this.name = name;
         this.planet = planet;
         this.galaxy = galaxy;
+        this.runways = new TreeMap<Integer, Runway>();
     }
     
 
@@ -43,6 +46,15 @@ public class Spaceport {
     public void setRunways(TreeMap runways) {
         this.runways = runways;
     }
+    
+    /**
+     * Add a new value of runways
+     *
+     * @param runway
+     */
+    public void addRunway(Runway runway) {
+        this.runways.put(runway.getNumber(), runway);
+    }    
 
     /**
      * Get the value of galaxy

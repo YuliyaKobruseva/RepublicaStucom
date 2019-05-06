@@ -11,8 +11,6 @@ import exceptions.ExceptionsDao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import dao.Dao;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

@@ -10,12 +10,9 @@ import exceptions.ExceptionsDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.plaf.basic.BasicSpinnerUI;
 import models.Runway;
 import models.Spaceport;
 import models.Spaceship;
@@ -156,9 +153,19 @@ public class MainInterface extends javax.swing.JFrame {
         informations.setText("Informations");
 
         spaceships.setText("Spaceships");
+        spaceships.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spaceshipsActionPerformed(evt);
+            }
+        });
         informations.add(spaceships);
 
         spaceports.setText("Spaceports");
+        spaceports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spaceportsActionPerformed(evt);
+            }
+        });
         informations.add(spaceports);
 
         spaceportsStatus.setText("Spaceports Status");
@@ -279,6 +286,16 @@ public class MainInterface extends javax.swing.JFrame {
         EndCleaning endCleaning = new EndCleaning();
         changeIF(endCleaning);
     }//GEN-LAST:event_endCleaningActionPerformed
+
+    private void spaceportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spaceportsActionPerformed
+        Informations information = new Informations("galaxy");
+        changeIF(information);
+    }//GEN-LAST:event_spaceportsActionPerformed
+
+    private void spaceshipsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spaceshipsActionPerformed
+        Informations information = new Informations("spaceships");
+        changeIF(information);
+    }//GEN-LAST:event_spaceshipsActionPerformed
 
     private void changeIF(JInternalFrame f) {
         desktop.add(f);

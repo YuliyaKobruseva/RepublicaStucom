@@ -8,8 +8,13 @@ package SwingTools;
 import dao.Dao;
 import exceptions.ExceptionsDao;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import models.Runway;
 import models.Spaceport;
 import models.Spaceship;
@@ -96,6 +101,13 @@ public class SwingTools {
                 spaceships.forEach((spaceship) -> {
                     comboBox.addItem(spaceship.getName());
                 });
+            case "galaxy":
+                List<String> galaxies = Dao.getDao().getListGalaxies();
+                comboBox.removeAllItems();
+                comboBox.addItem("Choose a galaxy");
+                galaxies.forEach((galaxy) -> {
+                    comboBox.addItem(galaxy);
+                });
             default:
                 break;
         }
@@ -133,33 +145,88 @@ public class SwingTools {
 //        }
 //    }
 //
-//    /**
-//     * Method to generate table
-//     * @param newTable
-//     * @param typeTable type of table
-//     */
-//    public void createTable(JTable newTable, String typeTable) throws ManagerException {
-//        ArrayList<String> columns = new ArrayList<>();
-//        ArrayList<String> rows = new ArrayList<>();
-//        if (typeTable.equalsIgnoreCase("level")) {
-//            for (TypeDifficultyLevel level : TypeDifficultyLevel.values()) {
-//                columns.add(level.toString());
-//                rows.add(Manager.getManager().quantityScores(typeTable, level.toString()));
-//            }
-//        } else if (typeTable.equalsIgnoreCase("instrument")) {
-//            for (TypeInstrument instrument : TypeInstrument.values()) {
-//                columns.add(instrument.toString());
-//                rows.add(Manager.getManager().quantityScores(typeTable, instrument.toString()));
-//            }
-//        } else if (typeTable.equalsIgnoreCase("genre")) {
-//            for (TypeGenre genre : TypeGenre.values()) {
-//                columns.add(genre.toString());
-//                rows.add(Manager.getManager().quantityScores(typeTable, genre.toString()));
-//            }
-//        }
-//        DefaultTableModel model = new DefaultTableModel(null, columns.toArray());
-//        model.addRow(rows.toArray());
-//        newTable.setModel(model);
-//        newTable.setEnabled(false);
-//    }
+    /**
+     * Method to generate table
+     *
+     * @param newTable
+     * @param galaxy
+     * @throws java.sql.SQLException
+     */
+    public void createTableByGalaxy(JTable newTable, String galaxy) throws SQLException {
+        List<String> columns = new ArrayList<>();
+        List<String> rows = new ArrayList<>();
+        columns.add("Planet");
+        columns.add("Spaceport");
+        columns.add("Runway");
+        columns.add("Status");
+        columns.add("Flight number");
+        columns.add("Spaceship");
+        DefaultTableModel model = new DefaultTableModel(null, columns.toArray());
+        List<Spaceport> spaceports = Dao.getDao().selectSpaceportByGalaxy(galaxy);
+        for (Spaceport spaceport : spaceports) {
+            TreeMap<Integer, Runway> runways = spaceport.getRunways();
+            String planet = spaceport.getPlanet();
+            String nameSpaceport = spaceport.getName();
+            String runwayNumber = "";
+            String status = "";
+            String flightNumber = "";
+            String spaceship = "";
+            if (runways.lastEntry() != null) {
+                for (Runway runway : runways.values()) {
+                    runwayNumber = ToolsApp.convertNumberToString(runway.getNumber());
+                    status = runway.getStatus().toString();
+                    flightNumber = ToolsApp.convertNumberToString(runway.getLandingsNumber());
+                    if (runway.getSpaceship() == null) {
+                        spaceship = "";;
+                    } else {
+                        spaceship = runway.getSpaceship().getName();
+                    }
+                    model.addRow(new Object[]{planet, nameSpaceport, runwayNumber, status, flightNumber, spaceship});
+                }
+            } else {
+                model.addRow(new Object[]{planet, nameSpaceport, runwayNumber, status, flightNumber, spaceship});
+            }
+        }
+        newTable.setModel(model);
+        newTable.setEnabled(false);
+    }
+
+    /**
+     *
+     * @param newTable
+     * @throws SQLException
+     * @throws ExceptionsDao
+     */
+    public void createTableSpaceships(JTable newTable) throws SQLException, ExceptionsDao {
+        List<String> columns = new ArrayList<>();
+        List<String> rows = new ArrayList<>();
+        columns.add("Spaceship");
+        columns.add("Capacity");
+        columns.add("Status");
+        columns.add("Flight number");
+        columns.add("Runway");
+        columns.add("Spaceport");
+        columns.add("Planet");
+        columns.add("Galaxy");
+        DefaultTableModel model = new DefaultTableModel(null, columns.toArray());
+        List<Spaceship> spaceships = Dao.getDao().selectAllSpaceship();
+        for (Spaceship spaceship : spaceships) {
+            String nameSpaceship = spaceship.getName();
+            String status = spaceship.getStatus().toString();
+            String flightNumber = ToolsApp.convertNumberToString(spaceship.getFlightNumbers());
+            String capacity = ToolsApp.convertNumberToString(spaceship.getCapacity());
+            Runway runwaySpaceship = Dao.getDao().selectRunwayBySpaceship(spaceship.getName());
+            String runwayNumber = ToolsApp.convertNumberToString(runwaySpaceship.getNumber());
+            if(runwayNumber.equalsIgnoreCase("0")){
+                runwayNumber="";
+            }
+            Spaceport spaceportOfSpaceship = Dao.getDao().getSpaceportByRunway(runwayNumber);
+            String spaceport = spaceportOfSpaceship.getName();
+            String planet = spaceportOfSpaceship.getPlanet();
+            String galaxy = spaceportOfSpaceship.getGalaxy();
+            model.addRow(new Object[]{nameSpaceship, capacity, status, flightNumber, runwayNumber, spaceport, planet, galaxy});
+        }
+        newTable.setModel(model);
+        newTable.setEnabled(false);
+    }
 }
