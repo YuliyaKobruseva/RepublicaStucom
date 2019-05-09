@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import models.Spaceship;
 import dao.Dao;
+import exceptions.InputException;
+import java.util.logging.Logger;
 
 /**
  *
@@ -45,6 +47,7 @@ public class DeleteSpaceship extends javax.swing.JDialog {
         delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Delete spaceship");
 
         delete.setText("Delete spacehip");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -63,8 +66,8 @@ public class DeleteSpaceship extends javax.swing.JDialog {
                         .addGap(75, 75, 75)
                         .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(152, 152, 152)
+                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,14 +75,19 @@ public class DeleteSpaceship extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67)
-                .addComponent(delete)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Methos thas allows to delete one spaceship
+     *
+     * @param evt
+     */
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         String spaceshipSelected = spaceship.getSelectedItem().toString();
         if (spaceshipSelected.equalsIgnoreCase("Choose a spaceship")) {

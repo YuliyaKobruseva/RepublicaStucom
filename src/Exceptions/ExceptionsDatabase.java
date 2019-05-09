@@ -9,16 +9,17 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Exceptions related to Database
  *
  * @author dafna
  */
 public class ExceptionsDatabase extends exceptions.CodeException {
-    // ExceptionsDao codes
 
+    // ExceptionsDatabase codes
     public static final int SPACESHIPS_NOT_FOUND = 0;
     public static final int MULTIPLE_ACCTION_FAILED = 1;
 
-    // ExceptionsDao messages
+    // ExceptionsDatabase messages
     private final List<String> messages = Arrays.asList(
             "There is no airport available",
             "An error has occured. Try again later."

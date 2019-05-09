@@ -18,6 +18,7 @@ public class SpaceportsInformationByGalaxy extends javax.swing.JPanel {
 
     /**
      * Creates new form SpaceportsInformationByGalaxy
+     * @param galaxy
      */
     public SpaceportsInformationByGalaxy(String galaxy) {
         initComponents();

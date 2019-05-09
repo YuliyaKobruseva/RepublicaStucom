@@ -15,16 +15,16 @@ import javax.swing.JOptionPane;
  *
  * @author dafna
  */
-public class AllSpaceships extends javax.swing.JPanel {
+public class SpaceportsStatus extends javax.swing.JPanel {
 
     /**
-     * Creates new form AllSpaships
+     * Creates new form SpaceportsStatus
      */
-    public AllSpaceships() {
+    public SpaceportsStatus() {
         initComponents();
         setPreferredSize(new Dimension(350, 250));
         try {
-            SwingTools.getSwingTools().createTableSpaceships(spaceships);
+            SwingTools.getSwingTools().createTableSpaceportRunwayavailable(spaceport);
         } catch (SQLException | ExceptionsDao ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
@@ -40,9 +40,9 @@ public class AllSpaceships extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        spaceships = new javax.swing.JTable();
+        spaceport = new javax.swing.JTable();
 
-        spaceships.setModel(new javax.swing.table.DefaultTableModel(
+        spaceport.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -53,26 +53,24 @@ public class AllSpaceships extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        spaceships.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        spaceships.setGridColor(new java.awt.Color(204, 204, 204));
-        spaceships.setRowHeight(25);
-        jScrollPane1.setViewportView(spaceships);
+        spaceport.setRowHeight(25);
+        jScrollPane1.setViewportView(spaceport);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable spaceships;
+    private javax.swing.JTable spaceport;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,7 +8,7 @@ package enums;
 /**
  * Class with posible status of runways
  *
- * @author dafna
+ * @author yuli
  */
 public enum RunwaysStatus {
     BUSY,

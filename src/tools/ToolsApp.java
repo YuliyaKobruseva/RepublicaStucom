@@ -10,6 +10,7 @@ import enums.SpaceshipsStatus;
 import exceptions.InputException;
 
 /**
+ * Class with aux functions to validate data
  *
  * @author yuli
  */
@@ -52,9 +53,9 @@ public class ToolsApp {
     }
 
     /**
+     * Parse string to SpaceshipsStatus type enum
      *
-     * @param text
-     * @return
+     * * @return
      */
     public static SpaceshipsStatus converStringToSpaceshipsStatus(String text) {
         SpaceshipsStatus enumText = SpaceshipsStatus.valueOf(text.toUpperCase());
@@ -62,6 +63,7 @@ public class ToolsApp {
     }
 
     /**
+     * Parse string to RunwaysStatus type enum
      *
      * @param text
      * @return

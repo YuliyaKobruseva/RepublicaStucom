@@ -21,10 +21,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="galaxy" min="-2" pref="244" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="search" min="-2" pref="185" max="-2" attributes="0"/>
-              <EmptySpace pref="230" max="32767" attributes="0"/>
+              <Component id="galaxy" min="-2" pref="298" max="-2" attributes="0"/>
+              <EmptySpace pref="94" max="32767" attributes="0"/>
+              <Component id="search" min="-2" pref="235" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
           </Group>
           <Component id="scrollPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -33,12 +33,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="search" pref="33" max="32767" attributes="0"/>
-                  <Component id="galaxy" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="search" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="galaxy" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="scrollPanel" pref="379" max="32767" attributes="0"/>
+              <Component id="scrollPanel" pref="383" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

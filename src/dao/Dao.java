@@ -6,7 +6,7 @@
 package dao;
 
 import Exceptions.ExceptionsDatabase;
-import exceptions.ExceptionsDao;
+import exceptions.InputException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,6 +42,7 @@ public class Dao {
     }
 
     /**
+     * Connection with database
      *
      * @throws SQLException
      */
@@ -53,6 +54,7 @@ public class Dao {
     }
 
     /**
+     * Disconnect from database
      *
      * @throws SQLException
      */
@@ -63,9 +65,10 @@ public class Dao {
     }
 
     /**
+     * Select one spaceport by name from database
      *
-     * @param spaceport
-     * @return
+     * @param spaceport object spaceport
+     * @return true if spaceport is in bbdd and else if is not
      * @throws SQLException
      */
     public boolean existSpaseport(Spaceport spaceport) throws SQLException {
@@ -84,14 +87,15 @@ public class Dao {
     }
 
     /**
+     * Select one runway by name from database
      *
-     * @param runway
-     * @return
+     * @param runway object runway
+     * @return true if runway is in bbdd and else if is not
      * @throws SQLException
      */
-    public boolean existRunway(Runway runway) throws SQLException {
+    public boolean existRunway(Runway runway, String spaceport) throws SQLException {
         connection();
-        String select = "select * from runway where number='" + runway.getNumber() + "'";
+        String select = "select * from runway where number='" + runway.getNumber() + "' and spaceport = '"+spaceport+"'";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(select);
         boolean existe = false;
@@ -105,9 +109,10 @@ public class Dao {
     }
 
     /**
+     * Select one spaceship by name from database
      *
-     * @param spaceship
-     * @return
+     * @param spaceship object spaceship
+     * @return true if spaceship is in bbdd and else if is not
      * @throws SQLException
      */
     public boolean existSpaceship(Spaceship spaceship) throws SQLException {
@@ -126,8 +131,9 @@ public class Dao {
     }
 
     /**
+     * Insert in database a new spaceport
      *
-     * @param spaceport
+     * @param spaceport object spaceport
      * @throws SQLException
      */
     public void insertSpaceport(Spaceport spaceport) throws SQLException {
@@ -143,9 +149,10 @@ public class Dao {
     }
 
     /**
+     * Insert in database a new runway
      *
-     * @param runway
-     * @param nameSpaceport
+     * @param runway object runway
+     * @param nameSpaceport name of spaceport what will it belong it
      * @throws SQLException
      */
     public void insertRunway(Runway runway, String nameSpaceport) throws SQLException {
@@ -163,12 +170,14 @@ public class Dao {
     }
 
     /**
+     * Insert in database a new spaceship
      *
-     * @param spaceship
-     * @param spaceport
-     * @param runway
+     * @param spaceship object spaceship
+     * @param spaceport name of spaceport when runway is
+     * @param runway number of runway when is landed
      * @throws SQLException
-     * @throws ExceptionsDatabase
+     * @throws ExceptionsDatabase when it has not been possible to insert in any
+     * of the two tables
      */
     public void insertSpaceship(Spaceship spaceship, String spaceport, String runway) throws SQLException, ExceptionsDatabase {
         connection();
@@ -198,10 +207,12 @@ public class Dao {
     }
 
     /**
+     * Delete from database a spaceship
      *
-     * @param spaceship
+     * @param spaceship object spaceship
      * @throws SQLException
-     * @throws Exceptions.ExceptionsDatabase
+     * @throws Exceptions.ExceptionsDatabase when it has not been possible to
+     * insert in any of the two tables
      */
     public void deleteSpaceship(Spaceship spaceship) throws SQLException, ExceptionsDatabase {
         connection();
@@ -224,6 +235,7 @@ public class Dao {
     }
 
     /**
+     * Select all spaceports
      *
      * @return @throws SQLException
      */
@@ -247,11 +259,12 @@ public class Dao {
     }
 
     /**
+     * Select all runways
      *
      * @return @throws SQLException
-     * @throws ExceptionsDao
+     * @throws exceptions.InputException
      */
-    public List<Runway> selectAllRunway() throws SQLException, ExceptionsDao {
+    public List<Runway> selectAllRunway() throws SQLException {
         connection();
         String query = "select * from runway";
         Statement st = conexion.createStatement();
@@ -271,7 +284,13 @@ public class Dao {
         return runways;
     }
 
-    public List<Spaceship> selectAllSpaceship() throws SQLException, ExceptionsDao {
+    /**
+     * Select all spaceships
+     *
+     * @return
+     * @throws SQLException
+     */
+    public List<Spaceship> selectAllSpaceship() throws SQLException {
         connection();
         String query = "select * from spaceship";
         Statement st = conexion.createStatement();
@@ -292,9 +311,10 @@ public class Dao {
     }
 
     /**
+     * Select runways for a certain type
      *
-     * @param status
-     * @return
+     * @param status type of status
+     * @return list with runways
      * @throws SQLException
      */
     public List<Runway> selectRunwaysByStatus(String status) throws SQLException {
@@ -322,9 +342,10 @@ public class Dao {
     }
 
     /**
+     * Select runways what belong to certain airport
      *
-     * @param spaceport
-     * @return
+     * @param spaceport name of spaceport
+     * @return list of runways
      * @throws SQLException
      */
     public List<Runway> selectRunwaysBySpaceport(String spaceport) throws SQLException {
@@ -352,9 +373,10 @@ public class Dao {
     }
 
     /**
+     * Select from database a one spaceship by name
      *
-     * @param name
-     * @return
+     * @param name name of spaceship
+     * @return object spaceship
      * @throws SQLException
      */
     public Spaceship getSpaceshipByName(String name) throws SQLException {
@@ -375,7 +397,14 @@ public class Dao {
         disconnect();
         return spaceship;
     }
-    
+
+    /**
+     * Select from database a spaceport which belong certain runway
+     *
+     * @param number number of runway
+     * @return object spaceport
+     * @throws SQLException
+     */
     public Spaceport getSpaceportByRunway(String number) throws SQLException {
         connection();
         Spaceport spaceport = new Spaceport();
@@ -385,7 +414,7 @@ public class Dao {
         spaceport = new Spaceport();
         if (rs.next()) {
             spaceport.setName(rs.getString("spaceport"));
-            spaceport.setPlanet(rs.getString("planet"));            
+            spaceport.setPlanet(rs.getString("planet"));
             spaceport.setGalaxy(rs.getString("galaxy"));
         }
         rs.close();
@@ -395,14 +424,16 @@ public class Dao {
     }
 
     /**
+     * Select from database list of runway by certain spaceport and status
      *
-     * @param nameSpaceport
-     * @return
+     * @param nameSpaceport name of spaceport
+     * @param status status type
+     * @return list of runway
      * @throws SQLException
      */
-    public List<Runway> selectFreeRunwaysBySpaceport(String nameSpaceport) throws SQLException {
+    public List<Runway> selectRunwaysBySpaceportStatus(String nameSpaceport, String status) throws SQLException {
         connection();
-        String query = "select * from runway where spaceport ='" + nameSpaceport + "'";
+        String query = "select * from runway where spaceport ='" + nameSpaceport + "' and status='" + status + "'";
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(query);
         List<Runway> runways = new ArrayList<>();
@@ -424,6 +455,13 @@ public class Dao {
         return runways;
     }
 
+    /**
+     * Select from database one runway where certain spaceship is landed
+     *
+     * @param nameSpaceship name of spaceship
+     * @return object runway
+     * @throws SQLException
+     */
     public Runway selectRunwayBySpaceship(String nameSpaceship) throws SQLException {
         connection();
         String query = "select * from runway where spaceship ='" + nameSpaceship + "'";
@@ -447,12 +485,13 @@ public class Dao {
     }
 
     /**
-     * Update spaceship and runway in case spaceship landing
+     * Update spaceship and runway in case spaceship deployment
      *
-     * @param spaceship
-     * @param runway
+     * @param spaceship object spaceship
+     * @param runway object runway
      * @throws SQLException
-     * @throws ExceptionsDatabase
+     * @throws ExceptionsDatabase when it has not been possible to insert in any
+     * of the two tables
      */
     public void updateSpaceshipRunwayDeployment(String spaceship, Runway runway) throws SQLException, ExceptionsDatabase {
         connection();
@@ -480,12 +519,14 @@ public class Dao {
     }
 
     /**
-     * Update spaceship and runway in case spaceship deployment
+     * Update spaceship and runway in case spaceship landing
      *
-     * @param spaceship
-     * @param runway
+     * @param spaceship object spaceship
+     * @param runway object runway
+     * @param spaceport
      * @throws SQLException
-     * @throws ExceptionsDatabase
+     * @throws ExceptionsDatabase when it has not been possible to insert in any
+     * of the two tables
      */
     public void updateSpaceshipRunwayLanding(Spaceship spaceship, String runway, String spaceport) throws SQLException, ExceptionsDatabase {
         connection();
@@ -514,9 +555,10 @@ public class Dao {
     }
 
     /**
+     * Select from database list of spaceship by certain status type
      *
-     * @param status
-     * @return
+     * @param status status type
+     * @return list of spaceship
      * @throws SQLException
      */
     public List<Spaceship> selectSpaceshipByStatus(String status) throws SQLException {
@@ -540,9 +582,10 @@ public class Dao {
     }
 
     /**
+     * Select from database list of spaceports by certain galaxy
      *
-     * @param galaxy
-     * @return
+     * @param galaxy name of galaxy
+     * @return list of spaceport
      * @throws SQLException
      */
     public List<Spaceport> selectSpaceportByGalaxy(String galaxy) throws SQLException {
@@ -569,12 +612,12 @@ public class Dao {
     }
 
     /**
+     * Update data of one spaceship in database in case of maintenance
      *
-     * @param spaceship
+     * @param spaceship object spaceship
      * @throws SQLException
-     * @throws ExceptionsDatabase
      */
-    public void updateSpaceshipMaintenance(Spaceship spaceship) throws SQLException, ExceptionsDatabase {
+    public void updateSpaceshipMaintenance(Spaceship spaceship) throws SQLException {
         connection();
         Statement st = conexion.createStatement();
         String updateSpaceship = "update spaceship set status='LANDED' where name='" + spaceship.getName() + "'";
@@ -584,13 +627,13 @@ public class Dao {
     }
 
     /**
+     * Update data of one runway in case of cleaning
      *
-     * @param spaceport
-     * @param runway
+     * @param spaceport name of spaceport
+     * @param runway number of runway
      * @throws SQLException
-     * @throws ExceptionsDatabase
      */
-    public void updateRunwayCleaning(String spaceport, String runway) throws SQLException, ExceptionsDatabase {
+    public void updateRunwayCleaning(String spaceport, String runway) throws SQLException {
         connection();
         Statement st = conexion.createStatement();
         String updateRunway = "update runway set status='FREE' where number='" + runway + "' and spaceport ='" + spaceport + "'";
@@ -600,8 +643,10 @@ public class Dao {
     }
 
     /**
+     * Select from database list of available galaxies
      *
-     * @return @throws SQLException
+     * @return list of galaxies
+     * @throws SQLException
      */
     public List<String> getListGalaxies() throws SQLException {
         connection();

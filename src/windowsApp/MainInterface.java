@@ -6,7 +6,7 @@
 package windowsApp;
 
 import dao.Dao;
-import exceptions.ExceptionsDao;
+import exceptions.InputException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,8 @@ public class MainInterface extends javax.swing.JFrame {
      */
     public MainInterface() {
         initComponents();
+        Welcome welcom = new Welcome();
+        changeIF(welcom);
     }
 
     /**
@@ -62,6 +64,7 @@ public class MainInterface extends javax.swing.JFrame {
         spaceportsStatus = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Welcom to StarStucom");
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
@@ -169,6 +172,11 @@ public class MainInterface extends javax.swing.JFrame {
         informations.add(spaceports);
 
         spaceportsStatus.setText("Spaceports Status");
+        spaceportsStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spaceportsStatusActionPerformed(evt);
+            }
+        });
         informations.add(spaceportsStatus);
 
         mainPanel.add(informations);
@@ -186,6 +194,8 @@ public class MainInterface extends javax.swing.JFrame {
             .addComponent(desktop)
         );
 
+        getAccessibleContext().setAccessibleName("Welcome");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 /**
@@ -199,6 +209,11 @@ public class MainInterface extends javax.swing.JFrame {
         newSpaceport.setVisible(true);
     }//GEN-LAST:event_newSpaceportActionPerformed
 
+    /**
+     * Open a window to create a new spaceship
+     *
+     * @param evt
+     */
     private void newSpaceshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSpaceshipActionPerformed
         try {
             spaceportsApp = Dao.getDao().selectAllSpaceport();
@@ -216,6 +231,11 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_newSpaceshipActionPerformed
 
+    /**
+     * Open a window to create a new runway
+     *
+     * @param evt
+     */
     private void newRunwayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRunwayActionPerformed
         try {
             spaceportsApp = Dao.getDao().selectAllSpaceport();
@@ -231,6 +251,11 @@ public class MainInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_newRunwayActionPerformed
 
+    /**
+     * Open a window for delete spaceship
+     *
+     * @param evt
+     */
     private void deleteSpaceshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSpaceshipActionPerformed
         try {
             spaceshipsApp = Dao.getDao().selectAllSpaceship();
@@ -241,11 +266,16 @@ public class MainInterface extends javax.swing.JFrame {
                 deleteSpaceship.setLocationRelativeTo(null);
                 deleteSpaceship.setVisible(true);
             }
-        } catch (SQLException | ExceptionsDao ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteSpaceshipActionPerformed
 
+    /**
+     * Open a window to departure a one spaceship
+     *
+     * @param evt
+     */
     private void departuresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departuresActionPerformed
         try {
             spaceshipsApp = Dao.getDao().selectSpaceshipByStatus("LANDED");
@@ -262,6 +292,11 @@ public class MainInterface extends javax.swing.JFrame {
 
     }//GEN-LAST:event_departuresActionPerformed
 
+    /**
+     * Open a window to landing a one spaceship
+     *
+     * @param evt
+     */
     private void landingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landingsActionPerformed
         try {
             spaceshipsApp = Dao.getDao().selectSpaceshipByStatus("FLYING");
@@ -272,31 +307,66 @@ public class MainInterface extends javax.swing.JFrame {
                 landing.setLocationRelativeTo(null);
                 landing.setVisible(true);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | InputException ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_landingsActionPerformed
 
+    /**
+     * Open a window to finish maintenance of spaceship
+     *
+     * @param evt
+     */
     private void endMaintenanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endMaintenanceActionPerformed
         EndMaintenance endMaintenance = new EndMaintenance();
         changeIF(endMaintenance);
     }//GEN-LAST:event_endMaintenanceActionPerformed
 
+    /**
+     * Open a window to finish cleaning of runway
+     *
+     * @param evt
+     */
     private void endCleaningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endCleaningActionPerformed
         EndCleaning endCleaning = new EndCleaning();
         changeIF(endCleaning);
     }//GEN-LAST:event_endCleaningActionPerformed
 
+    /**
+     * Open a window to show informations about spaceport by certain galaxy
+     *
+     * @param evt
+     */
     private void spaceportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spaceportsActionPerformed
         Informations information = new Informations("galaxy");
         changeIF(information);
     }//GEN-LAST:event_spaceportsActionPerformed
 
+    /**
+     * Open a windows to show information about all spaceships
+     *
+     * @param evt
+     */
     private void spaceshipsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spaceshipsActionPerformed
         Informations information = new Informations("spaceships");
         changeIF(information);
     }//GEN-LAST:event_spaceshipsActionPerformed
 
+    /**
+     * Open a window to show information about the state of spaceports
+     *
+     * @param evt
+     */
+    private void spaceportsStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spaceportsStatusActionPerformed
+        Informations information = new Informations("byStatus");
+        changeIF(information);
+    }//GEN-LAST:event_spaceportsStatusActionPerformed
+
+    /**
+     * Method that allow to change different windows in desktop
+     *
+     * @param f
+     */
     private void changeIF(JInternalFrame f) {
         desktop.add(f);
         f.setVisible(true);

@@ -25,11 +25,7 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
     public DeploymentSpaceship(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        try {
-            SwingTools.getSwingTools().generateSelect(spaceship, "deployment");
-        } catch (SQLException | ExceptionsDao ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
-        }
+        updateDataCombobox();
     }
 
     /**
@@ -45,6 +41,7 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
         deployment = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Deployment");
 
         deployment.setText("Deployment spaceship");
         deployment.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +77,12 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method to allow execute a method for update data in case de deployment
+     * spaceship
+     *
+     * @param evt
+     */
     private void deploymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deploymentActionPerformed
         String spaceshipSelected = this.spaceship.getSelectedItem().toString();
         if (spaceshipSelected.equalsIgnoreCase("Choose a spaceship") || spaceshipSelected.trim().equalsIgnoreCase("Choose a spaceship")) {
@@ -90,12 +93,20 @@ public class DeploymentSpaceship extends javax.swing.JDialog {
                 Runway runway = Dao.getDao().selectRunwayBySpaceship(spaceshipSelected);
                 Dao.getDao().updateSpaceshipRunwayDeployment(spaceshipSelected, runway);
                 JOptionPane.showMessageDialog(this, "The spaceship has been deployment successful", "Message", JOptionPane.INFORMATION_MESSAGE);
+                updateDataCombobox();
             } catch (SQLException | ExceptionsDatabase ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_deploymentActionPerformed
 
+    private void updateDataCombobox(){
+        try {
+            SwingTools.getSwingTools().generateSelect(spaceship, "deployment");
+        } catch (SQLException | ExceptionsDao ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deployment;
     private javax.swing.JComboBox<String> spaceship;

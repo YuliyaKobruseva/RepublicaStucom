@@ -6,7 +6,6 @@
 package windowsApp;
 
 import dao.Dao;
-import exceptions.ExceptionsDao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import models.Spaceport;
@@ -52,6 +51,7 @@ public class NewSpaceport extends javax.swing.JDialog {
         nameRequired = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("New spaceport");
 
         spaceportName1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         spaceportName1.setLabelFor(name);
@@ -172,6 +172,11 @@ public class NewSpaceport extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method that call Dao to inserta data of new spaceport in database
+     *
+     * @param evt
+     */
     private void addSpaceportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSpaceportActionPerformed
         String nameSpaceport = name.getText();
         String namePlanet = this.namePlanet.getText();
@@ -198,6 +203,9 @@ public class NewSpaceport extends javax.swing.JDialog {
                             } else {
                                 Dao.getDao().insertSpaceport(newSpaceport);
                                 JOptionPane.showMessageDialog(this, "Spaceport created successful", "Message", JOptionPane.INFORMATION_MESSAGE);
+                                name.setText("");
+                                this.namePlanet.setText("");
+                                this.nameGalaxy.setText("");
                             }
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
@@ -205,7 +213,6 @@ public class NewSpaceport extends javax.swing.JDialog {
                     }
                 }
             }
-
         }
     }//GEN-LAST:event_addSpaceportActionPerformed
 

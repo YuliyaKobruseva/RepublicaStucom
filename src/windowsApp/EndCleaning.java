@@ -5,7 +5,6 @@
  */
 package windowsApp;
 
-import Exceptions.ExceptionsDatabase;
 import SwingTools.SwingTools;
 import exceptions.ExceptionsDao;
 import java.sql.SQLException;
@@ -23,9 +22,9 @@ public class EndCleaning extends javax.swing.JInternalFrame {
      */
     public EndCleaning() {
         initComponents();
-        try {                                  
+        try {
             SwingTools.getSwingTools().generateSelect(spaceport, "spaceport");
-        } catch (SQLException | ExceptionsDao ex ) {
+        } catch (SQLException | ExceptionsDao ex) {
             JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -61,58 +60,59 @@ public class EndCleaning extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127)
-                        .addComponent(runway, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(156, 156, 156)
-                        .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addComponent(runway, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(196, 196, 196)
+                .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(runway, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(spaceport))
-                .addGap(94, 94, 94)
-                .addComponent(complete)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runway, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(124, 124, 124))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void spaceportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_spaceportItemStateChanged
-        String spaceportSelected = spaceport.getSelectedItem().toString();        
-        if(spaceportSelected.equalsIgnoreCase("Choose a runway")){
+        String spaceportSelected = spaceport.getSelectedItem().toString();
+        if (spaceportSelected.equalsIgnoreCase("Choose a runway")) {
             JOptionPane.showMessageDialog(this, "You have not selected any runway", "Message", JOptionPane.WARNING_MESSAGE);
-        }else{
-            try {                
+        } else {
+            try {
                 SwingTools.getSwingTools().generateDynamicSelect(runway, spaceportSelected, "CLEANING");
             } catch (SQLException | ExceptionsDao ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
-        }  
+        }
     }//GEN-LAST:event_spaceportItemStateChanged
 
     private void completeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeActionPerformed
         String spaceportSelected = spaceport.getSelectedItem().toString();
         String runwaySelected = runway.getSelectedItem().toString();
-        if(spaceportSelected.equalsIgnoreCase("Choose a spacesport") || spaceportSelected.trim().equalsIgnoreCase("Choose a spacesport")){
+        if (spaceportSelected.equalsIgnoreCase("Choose a spaceport") || spaceportSelected.trim().equalsIgnoreCase("Choose a spaceport")) {
             JOptionPane.showMessageDialog(this, "You have not selected any spaceport", "Message", JOptionPane.WARNING_MESSAGE);
-        }else{
-            if(runwaySelected.equalsIgnoreCase("Choose a spacesport") || runwaySelected.trim().equalsIgnoreCase("Choose a spacesport")){
-            JOptionPane.showMessageDialog(this, "You have not selected any tunway", "Message", JOptionPane.WARNING_MESSAGE);
-        }else{
+        } else {
+            if (runwaySelected.equalsIgnoreCase("Choose a spacesport") || runwaySelected.trim().equalsIgnoreCase("Choose a spacesport")) {
+                JOptionPane.showMessageDialog(this, "You have not selected any tunway", "Message", JOptionPane.WARNING_MESSAGE);
+            } else {
                 try {
                     Dao.getDao().updateRunwayCleaning(spaceportSelected, runwaySelected);
                     JOptionPane.showMessageDialog(this, "Cleaning completed successful.", "Message", JOptionPane.INFORMATION_MESSAGE);
-                } catch (SQLException | ExceptionsDatabase ex) {
+                    runway.setSelectedIndex(0);
+                    spaceport.setSelectedIndex(0);
+                } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
                 }
             }

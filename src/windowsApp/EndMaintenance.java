@@ -5,7 +5,6 @@
  */
 package windowsApp;
 
-import Exceptions.ExceptionsDatabase;
 import SwingTools.SwingTools;
 import dao.Dao;
 import exceptions.ExceptionsDao;
@@ -24,11 +23,7 @@ public class EndMaintenance extends javax.swing.JInternalFrame {
      */
     public EndMaintenance() {
         initComponents();
-        try {
-            SwingTools.getSwingTools().generateSelect(spaceship, "maintenance");
-        } catch (SQLException | ExceptionsDao ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
-        }
+        generateComboBox();
     }
 
     /**
@@ -57,25 +52,34 @@ public class EndMaintenance extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(complete, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                    .addComponent(spaceship, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(386, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
-                .addComponent(complete)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(129, 129, 129)
+                .addComponent(complete, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method that call a update method in DAo for update data of spaceship in
+     * case of maintenace
+     *
+     * @param evt
+     */
     private void completeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeActionPerformed
         String spaceshipSelected = spaceship.getSelectedItem().toString();
         if (spaceshipSelected.equalsIgnoreCase("Choose a spaceship") || spaceshipSelected.trim().equalsIgnoreCase("Choose a spaceship")) {
@@ -85,12 +89,23 @@ public class EndMaintenance extends javax.swing.JInternalFrame {
                 Spaceship spaceshipChecked = Dao.getDao().getSpaceshipByName(spaceshipSelected);
                 Dao.getDao().updateSpaceshipMaintenance(spaceshipChecked);
                 JOptionPane.showMessageDialog(this, "Maintenance completed successful.", "Message", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException | ExceptionsDatabase ex) {
+                generateComboBox();
+            } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_completeActionPerformed
 
+    /**
+     * Method that generate a Combobox
+     */
+    private void generateComboBox() {
+        try {
+            SwingTools.getSwingTools().generateSelect(spaceship, "maintenance");
+        } catch (SQLException | ExceptionsDao ex) {
+            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton complete;
     private javax.swing.JComboBox<String> spaceship;

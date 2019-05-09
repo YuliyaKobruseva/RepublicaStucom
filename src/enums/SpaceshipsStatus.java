@@ -8,7 +8,7 @@ package enums;
 /**
  * Class with posible status of spaceship
  *
- * @author dafna
+ * @author yuli
  */
 public enum SpaceshipsStatus {
     BROKEN,

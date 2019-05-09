@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.Runway;
@@ -39,12 +38,12 @@ public class SwingTools {
     /**
      * Method to generate a comboBox
      *
-     * @param comboBox
+     * @param comboBox comboBox Object
      * @param typeComboBox type of comboBox
      * @throws java.sql.SQLException
      * @throws exceptions.ExceptionsDao
      */
-    public void generateSelect(JComboBox<String> comboBox, String typeComboBox) throws SQLException, ExceptionsDao {
+    public void generateSelect(JComboBox<String> comboBox, String typeComboBox) throws SQLException, ExceptionsDao{
         switch (typeComboBox) {
             case "runway":
                 List<Runway> runways = Dao.getDao().selectAllRunway();
@@ -71,36 +70,37 @@ public class SwingTools {
                 });
                 break;
             case "broken":
-                spaceships = Dao.getDao().selectSpaceshipByStatus("BROKEN");
+                List<Spaceship> spaceshipsBroken = Dao.getDao().selectSpaceshipByStatus("BROKEN");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
-                spaceships.forEach((spaceship) -> {
+                spaceshipsBroken.forEach((spaceship) -> {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
             case "deployment":
-                spaceships = Dao.getDao().selectSpaceshipByStatus("LANDED");
+                List<Spaceship> spaceshipsdeployment = Dao.getDao().selectSpaceshipByStatus("LANDED");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
-                spaceships.forEach((spaceship) -> {
+                spaceshipsdeployment.forEach((spaceship) -> {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
             case "landing":
-                spaceships = Dao.getDao().selectSpaceshipByStatus("FLYING");
+                List<Spaceship> spaceshipsLandings = Dao.getDao().selectSpaceshipByStatus("FLYING");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
-                spaceships.forEach((spaceship) -> {
+                spaceshipsLandings.forEach((spaceship) -> {
                     comboBox.addItem(spaceship.getName());
                 });
                 break;
             case "maintenance":
-                spaceships = Dao.getDao().selectSpaceshipByStatus("BROKEN");
+                List<Spaceship> spaceshipsMaintenance = Dao.getDao().selectSpaceshipByStatus("BROKEN");
                 comboBox.removeAllItems();
                 comboBox.addItem("Choose a spaceship");
-                spaceships.forEach((spaceship) -> {
+                spaceshipsMaintenance.forEach((spaceship) -> {
                     comboBox.addItem(spaceship.getName());
                 });
+                break;
             case "galaxy":
                 List<String> galaxies = Dao.getDao().getListGalaxies();
                 comboBox.removeAllItems();
@@ -122,7 +122,7 @@ public class SwingTools {
      * @throws exceptions.ExceptionsDao
      */
     public void generateDynamicSelect(JComboBox<String> comboBox, String nameSpaceport, String status) throws SQLException, ExceptionsDao {
-        List<Runway> runways = Dao.getDao().selectFreeRunwaysBySpaceport(nameSpaceport);
+        List<Runway> runways = Dao.getDao().selectRunwaysBySpaceport(nameSpaceport);
         comboBox.removeAllItems();
         comboBox.addItem("Choose a runway");
         runways.forEach((runway) -> {
@@ -132,29 +132,16 @@ public class SwingTools {
         });
     }
 
-//    /**
-//     * Method to set icon of app
-//     * @param dialog
-//     * @param frame
-//     */
-//    public void setIcon(JDialog dialog, JFrame frame) {
-//        if (dialog == null) {
-//            frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconLogin.png")));
-//        } else {
-//            dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconLogin.png")));
-//        }
-//    }
-//
     /**
-     * Method to generate table
+     * Method to generate table by Galaxy
      *
-     * @param newTable
-     * @param galaxy
+     * @param newTable table Object
+     * @param galaxy name of galaxy
      * @throws java.sql.SQLException
+     * @throws exceptions.InputException
      */
     public void createTableByGalaxy(JTable newTable, String galaxy) throws SQLException {
         List<String> columns = new ArrayList<>();
-        List<String> rows = new ArrayList<>();
         columns.add("Planet");
         columns.add("Spaceport");
         columns.add("Runway");
@@ -177,7 +164,7 @@ public class SwingTools {
                     status = runway.getStatus().toString();
                     flightNumber = ToolsApp.convertNumberToString(runway.getLandingsNumber());
                     if (runway.getSpaceship() == null) {
-                        spaceship = "";;
+                        spaceship = "";
                     } else {
                         spaceship = runway.getSpaceship().getName();
                     }
@@ -192,14 +179,15 @@ public class SwingTools {
     }
 
     /**
+     * Method to generate table by Spaceship
      *
-     * @param newTable
+     * @param newTable table object
      * @throws SQLException
      * @throws ExceptionsDao
+     * @throws exceptions.InputException
      */
     public void createTableSpaceships(JTable newTable) throws SQLException, ExceptionsDao {
         List<String> columns = new ArrayList<>();
-        List<String> rows = new ArrayList<>();
         columns.add("Spaceship");
         columns.add("Capacity");
         columns.add("Status");
@@ -217,14 +205,49 @@ public class SwingTools {
             String capacity = ToolsApp.convertNumberToString(spaceship.getCapacity());
             Runway runwaySpaceship = Dao.getDao().selectRunwayBySpaceship(spaceship.getName());
             String runwayNumber = ToolsApp.convertNumberToString(runwaySpaceship.getNumber());
-            if(runwayNumber.equalsIgnoreCase("0")){
-                runwayNumber="";
+            if (runwayNumber.equalsIgnoreCase("0")) {
+                runwayNumber = "";
             }
             Spaceport spaceportOfSpaceship = Dao.getDao().getSpaceportByRunway(runwayNumber);
             String spaceport = spaceportOfSpaceship.getName();
             String planet = spaceportOfSpaceship.getPlanet();
             String galaxy = spaceportOfSpaceship.getGalaxy();
             model.addRow(new Object[]{nameSpaceship, capacity, status, flightNumber, runwayNumber, spaceport, planet, galaxy});
+        }
+        newTable.setModel(model);
+        newTable.setEnabled(false);
+    }
+
+    /**
+     * Method to generate table by Spaceports
+     *
+     * @param newTable table Object
+     * @throws SQLException
+     * @throws ExceptionsDao
+     * @throws exceptions.InputException
+     */
+    public void createTableSpaceportRunwayavailable(JTable newTable) throws SQLException, ExceptionsDao {
+        List<String> columns = new ArrayList<>();
+        columns.add("Spaceport");
+        columns.add("Planet");
+        columns.add("Galaxy");
+        columns.add("Number of runway available");
+        DefaultTableModel model = new DefaultTableModel(null, columns.toArray());
+        List<Spaceport> spaceports = Dao.getDao().selectAllSpaceport();
+        for (Spaceport spaceport : spaceports) {
+            String name = spaceport.getName();
+            String planet = spaceport.getPlanet();
+            String galaxy = spaceport.getGalaxy();
+            String numberRunway = "Runways in construction";
+            if (Dao.getDao().selectRunwaysBySpaceportStatus(name, "FREE").isEmpty()) {
+                if (!Dao.getDao().selectRunwaysBySpaceportStatus(name, "BUSY").isEmpty()) {
+                    numberRunway = "FULL";
+                }
+            } else {
+                numberRunway = ToolsApp.convertNumberToString(Dao.getDao().selectRunwaysBySpaceportStatus(name, "FREE").size());
+            }
+
+            model.addRow(new Object[]{name, planet, galaxy, numberRunway});
         }
         newTable.setModel(model);
         newTable.setEnabled(false);

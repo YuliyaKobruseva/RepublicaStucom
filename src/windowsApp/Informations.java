@@ -28,16 +28,19 @@ public class Informations extends javax.swing.JInternalFrame {
                 SwingTools.getSwingTools().generateSelect(galaxy, "galaxy");
             } catch (SQLException | ExceptionsDao ex) {
                 JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
-            }           
+            }
         } else {
             galaxy.setVisible(false);
             search.setVisible(false);
-            if(type.equalsIgnoreCase("spaceships")){
-                AllSpaceships spaceshipsInfo = new AllSpaceships(); 
-                scrollPanel.setViewportView(spaceshipsInfo); 
+            if (type.equalsIgnoreCase("spaceships")) {
+                AllSpaceships spaceshipsInfo = new AllSpaceships();
+                scrollPanel.setViewportView(spaceshipsInfo);
+            } else {
+                SpaceportsStatus spaceports = new SpaceportsStatus();
+                scrollPanel.setViewportView(spaceports);
             }
         }
-        
+
     }
 
     /**
@@ -68,33 +71,39 @@ public class Informations extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(galaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addComponent(galaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
             .addComponent(scrollPanel)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(galaxy))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(galaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(scrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+                .addComponent(scrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method that call Dao for show informations about spaceports by certain
+     * galaxy
+     *
+     * @param evt
+     */
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         String galaxyName = galaxy.getSelectedItem().toString();
-        if(galaxyName.equalsIgnoreCase("Choose a galaxy")){
+        if (galaxyName.equalsIgnoreCase("Choose a galaxy")) {
             JOptionPane.showMessageDialog(this, "You have not selected any galaxy", "Message", JOptionPane.WARNING_MESSAGE);
-        }else{
-            SpaceportsInformationByGalaxy spaceportInfo = new SpaceportsInformationByGalaxy(galaxyName);            
-            scrollPanel.setViewportView(spaceportInfo);            
+        } else {
+            SpaceportsInformationByGalaxy spaceportInfo = new SpaceportsInformationByGalaxy(galaxyName);
+            scrollPanel.setViewportView(spaceportInfo);
         }
     }//GEN-LAST:event_searchActionPerformed
 

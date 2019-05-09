@@ -21,7 +21,7 @@ import tools.ToolsApp;
 
 /**
  *
- * @author dafna
+ * @author yuli
  */
 public class NewSpaceship extends javax.swing.JDialog {
 
@@ -68,7 +68,9 @@ public class NewSpaceship extends javax.swing.JDialog {
         runways = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("New spaceship");
 
+        spaceship.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         spaceship.setLabelFor(nameSpaceship);
         spaceship.setText("Name of spaceship");
 
@@ -86,6 +88,7 @@ public class NewSpaceship extends javax.swing.JDialog {
         nameRequired.setForeground(new java.awt.Color(255, 0, 0));
         nameRequired.setText("Name is required");
 
+        capacitySpaceship.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         capacitySpaceship.setLabelFor(capacity);
         capacitySpaceship.setText("Capacity");
 
@@ -122,49 +125,49 @@ public class NewSpaceship extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(224, 224, 224)
-                .addComponent(addSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(capacitySpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spaceship, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                            .addComponent(capacitySpaceship, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67)
-                                .addComponent(runways, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(nameRequired, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(101, 101, 101)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(capacityRequired, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nameSpaceship, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                                    .addComponent(capacity, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameRequired, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(capacityRequired, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(nameSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(capacity, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(30, 30, 30)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel5))))))
-                        .addGap(0, 143, Short.MAX_VALUE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(92, 92, 92))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(94, 94, 94))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addComponent(runways, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(186, 186, 186)
+                .addComponent(addSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel5)))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(nameRequired)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,22 +177,26 @@ public class NewSpaceship extends javax.swing.JDialog {
                             .addComponent(capacity, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(capacitySpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addGap(30, 30, 30)
                         .addComponent(jLabel2)))
                 .addGap(18, 18, 18)
                 .addComponent(capacityRequired)
                 .addGap(70, 70, 70)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(spaceport, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(runways))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
-                .addComponent(addSpaceship)
-                .addGap(73, 73, 73))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spaceport, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runways, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(72, 72, 72)
+                .addComponent(addSpaceship, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+     * Check input "capacity" when focus lost
+     *
+     * @param evt
+     */
     private void capacityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_capacityFocusLost
         int newCapacity = 0;
         if (capacity.getText().equalsIgnoreCase("") || capacity.getText().trim().equalsIgnoreCase("")) {
@@ -198,7 +205,9 @@ public class NewSpaceship extends javax.swing.JDialog {
             try {
                 newCapacity = ToolsApp.convertStringToNumber(capacity.getText());
             } catch (InputException ex) {
-                JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+//                JOptionPane.showMessageDialog(this, "Capacity incorrect", "Message", JOptionPane.WARNING_MESSAGE);
+                capacityRequired.setText("Capacity can not be less than or equal to 0");
+                capacityRequired.setVisible(true);
             }
             if (newCapacity <= 0) {
                 capacityRequired.setText("Capacity can not be less than or equal to 0");
@@ -207,30 +216,49 @@ public class NewSpaceship extends javax.swing.JDialog {
                 capacityRequired.setVisible(false);
             }
         }
-
     }//GEN-LAST:event_capacityFocusLost
 
+    /**
+     * Execute method to add new Spaceship
+     *
+     * @param evt
+     */
     private void addSpaceshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSpaceshipActionPerformed
+        capacityRequired.setVisible(false);
+        nameRequired.setVisible(false);
         String name = nameSpaceship.getText();
         String nameSpaceport = spaceport.getSelectedItem().toString();
         String runway = runways.getSelectedItem().toString();
         try {
             int newCapacity = ToolsApp.convertStringToNumber(capacity.getText());
-            Spaceship newSpaceship = new Spaceship(name, newCapacity);
-            if (Dao.getDao().existSpaceship(newSpaceship)) {
-                JOptionPane.showMessageDialog(this, "Spaceship already exist", "Message", JOptionPane.WARNING_MESSAGE);
-            } else {
-                Dao.getDao().insertSpaceship(newSpaceship, nameSpaceport, runway);
-                JOptionPane.showMessageDialog(this, "Spaceship created successful", "Message", JOptionPane.INFORMATION_MESSAGE);
-                //comprobar selectbox
-            }
+            if(name.isEmpty()|| name.trim().equalsIgnoreCase("")){
+              nameRequired.setVisible(true);
+            }else{
+                Spaceship newSpaceship = new Spaceship(name, newCapacity);
+                if (Dao.getDao().existSpaceship(newSpaceship)) {
+                    JOptionPane.showMessageDialog(this, "Spaceship already exist", "Message", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    Dao.getDao().insertSpaceship(newSpaceship, nameSpaceport, runway);
+                    JOptionPane.showMessageDialog(this, "Spaceship created successful", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    spaceport.setSelectedIndex(0);
+                    runways.setSelectedIndex(0);
+                    capacity.setText("");
+                    nameSpaceship.setText("");
+                }
+            }            
         } catch (InputException ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+            capacityRequired.setText("Capacity required");
+            capacityRequired.setVisible(true);
         } catch (SQLException | ExceptionsDatabase ex) {
-            JOptionPane.showMessageDialog(this, "" + ex.getMessage(), "Message", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The data is not complete", "Message", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_addSpaceshipActionPerformed
 
+    /**
+     * Check input "name" when focus lost
+     *
+     * @param evt
+     */
     private void nameSpaceshipFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameSpaceshipFocusLost
         String name = nameSpaceship.getText();
         if (name.equalsIgnoreCase("") || name.trim().equalsIgnoreCase("")) {
@@ -240,6 +268,11 @@ public class NewSpaceship extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_nameSpaceshipFocusLost
 
+    /**
+     * Method that generates the select from selected element in main select
+     *
+     * @param evt
+     */
     private void spaceportItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_spaceportItemStateChanged
         String spaceportSelected = spaceport.getSelectedItem().toString();
         if (spaceportSelected.equalsIgnoreCase("Choose a runway")) {
